@@ -23,19 +23,44 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-; a
+(define (range max)
+  (define (range-iter min max)
+    (if (> min max) '()
+      (cons min (range-iter (+ min 1) max))))
+  (range-iter 1 max))
+(define (index-zip ls)
+  (map list (range (length ls)) ls))
 
-(define (make-sum a1 a2) (list a1 '+ a2))
-(define (addend s) (car s))
-(define (augend s) (caddr s))
+(define (op-exists? ls op)
+  (not (null? (filter (lambda (pair) (eq? op (cadr pair))) (index-zip ls)))))
+(define (index ls op)
+  (let ((pair (filter (lambda (pair) (eq? op (cadr pair))) (index-zip ls))))
+    (car (car pair))))
+
+(define (take ls n)
+  (if (or (<= n 0) (null? ls)) ()
+    (cons (car ls) (take (cdr ls) (- n 1)))))
+(define (drop ls n)
+  (if (or (<= n 0) (null? ls)) ls
+    (drop (cdr ls) (- n 1))))
+
 (define (sum? x)
-  (and (pair? x) (eq? (cadr x) '+)))
-
-(define (make-product m1 m2)
-  (list m1 '* m2))
-(define (multiplier p) (car p))
-(define (multiplicand p) (caddr p))
+  (and (pair? x) (op-exists? x '+)))
 (define (product? x)
-  (and (pair? x) (eq? (cadr x) '*)))
+  (and (pair? x) (not (op-exists? x '+)) (op-exists? x '*)))
 
-; (deriv '(x + (3 * (x + (y + 2)))) 'x)
+(define (addend s)
+  (let ((ls (take s (- (index s '+) 1))))
+    (if (= (length ls) 1) (car ls) ls)))
+(define (augend s)
+  (let ((ls (drop s (index s '+))))
+    (if (= (length ls) 1) (car ls) ls)))
+
+(define (multiplier p)
+  (let ((ls (take p (- (index p '*) 1))))
+    (if (= (length ls) 1) (car ls) ls)))
+(define (multiplicand p)
+  (let ((ls (drop p (index p '*))))
+    (if (= (length ls) 1) (car ls) ls)))
+
+; (print (deriv '(x + 3 * (x + y + 2)) 'x))
