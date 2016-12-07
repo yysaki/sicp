@@ -7,7 +7,7 @@
   (if (= (length leaf-set) 1) (car leaf-set)
     (successive-merge
       (adjoin-set (make-code-tree (car leaf-set)
-                                  (cadr min-leafs))
+                                  (cadr leaf-set))
                   (cddr leaf-set)))))
 
 ; (print (generate-huffman-tree '((C 1) (D 1) (E 1) (F 1) (G 1) (H 1) (B 3) (A 8))))
