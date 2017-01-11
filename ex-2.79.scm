@@ -16,4 +16,4 @@
        (lambda (x y) (and (= (real-part x) (real-part y)) (= (imag-part y) (imag-part y)))))
   'done)
 
-(define (equ? x y) (apply-generic 'equ x y))
+(define (equ? x y) (apply-generic 'equ? x y))
