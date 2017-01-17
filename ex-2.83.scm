@@ -2,7 +2,7 @@
 (load "./table")
 (load "./ex-2.81")
 
-(define (raise x) (apply-generic 'raise x))
+(define (raise x) ((get 'raise (list (type-tag x))) (contents x)))
 
 (define (install-scheme-number-package)
   (define (tag x)
@@ -72,7 +72,7 @@
   (put 'make 'real
        (lambda (x) (tag x)))
   (put 'raise '(real)
-       (lambda (x) (make-from-real-imag x 0)))
+       (lambda (x) (make-complex-from-real-imag x 0)))
   'done)
 
 (define (make-real n)
