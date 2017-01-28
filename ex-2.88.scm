@@ -1,0 +1,38 @@
+(load "./table")
+(load "./tables")
+
+(define (minus x) (apply-generic 'minus x))
+
+(put 'minus '(scheme-number)
+     (lambda (x) (tag (- x))))
+(put 'minus '(rational)
+     (lambda (x) (tag (make-rat (- numer x) (denom x)))))
+(put 'minus '(real)
+     (lambda (x) (tag (- x))))
+(put 'minus '(complex)
+     (lambda (x) (tag (make-from-real-imag (- (real-part x)) (imag-part x)))))
+
+(define (minus-terms term-list)
+  (if (empty-termlist? term-list)
+    '()
+    (let ((t (first-term term-list)))
+      (adjoin-term
+        (make-term (order t) (minus (coeff t)))
+        (minus-terms (rest-terms term-list))))))
+(define (minus-poly p)
+  (make-poly (variable p) (minus-terms (term-list p))))
+
+(put 'sub '(polynomial polynomial)
+     (lambda (p1 p2) (tag (add-poly p1 (minus-poly p2)))))
+(put 'mul '(polynomial polynomial)
+     (lambda (p1 p2) (tag (mul-poly p1 p2))))
+(put 'minus '(polynomial)
+     (lambda (p) (tag (minus-poly p))))
+
+(define (main args)
+  (install-scheme-number-package)
+  (install-polynomial-package)
+  (let ((p1 (make-polynomial 'x '((1 2) (0 2))))
+        (p2 (make-polynomial 'x '((1 1) (0 1)))))
+    (print (sub p1 p2))
+    (print (sub p2 p1))))

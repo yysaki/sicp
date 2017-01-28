@@ -42,6 +42,7 @@
 (define (sub x y) (apply-generic 'sub x y))
 (define (mul x y) (apply-generic 'mul x y))
 (define (div x y) (apply-generic 'div x y))
+(define (minus x) (apply-generic 'minus x))
 (define (equ? x y) (apply-generic 'equ? x y))
 (define (=zero? x) (apply-generic '=zero? x))
 
@@ -64,6 +65,8 @@
        (lambda (x y) (tag (/ x y))))
   (put 'exp '(scheme-number scheme-number)
        (lambda (x y) (tag (expt x y))))
+  (put 'minus '(scheme-number)
+       (lambda (x) (tag (- x))))
   (put '=zero? '(scheme-number)
        (lambda (x) (= x 0)))
   (put 'make 'scheme-number
@@ -102,6 +105,8 @@
        (lambda (x y) (tag (mul-rat x y))))
   (put 'div '(rational rational)
        (lambda (x y) (tag (div-rat x y))))
+  (put 'minus '(rational)
+       (lambda (x) (tag (make-rat (- numer x) (denom x)))))
   (put 'equ? '(rational rational)
        (lambda (x y) (and (= (numer x) (numer y)) (= (denom x) (denom y)))))
   (put 'make 'rational
@@ -127,6 +132,8 @@
        (lambda (x y) (tag (* x y))))
   (put 'div '(real real)
        (lambda (x y) (tag (/ x y))))
+  (put 'minus '(real)
+       (lambda (x) (tag (- x))))
   (put 'equ? '(real real)
        (lambda (x y) (= x y)))
   (put 'make 'real
@@ -166,6 +173,8 @@
        (lambda (z1 z2) (tag (mul-complex z1 z2))))
   (put 'div '(complex complex)
        (lambda (z1 z2) (tag (div-complex z1 z2))))
+  (put 'minus '(complex)
+       (lambda (x) (tag (make-from-real-imag (- (real-part x)) (imag-part x)))))
   (put 'equ? '(complex complex)
        (lambda (x y) (and (= (real-part x) (real-part y)) (= (imag-part y) (imag-part y)))))
   (put 'make-from-real-imag 'complex
@@ -303,6 +312,16 @@
                      (mul (coeff t1) (coeff t2)))
           (mul-term-by-all-terms t1 (rest-terms L))))))
 
+  (define (minus-terms term-list)
+    (if (empty-termlist? term-list)
+      '()
+      (let ((t (first-term term-list)))
+        (adjoin-term
+          (make-term (order t) (minus (coeff t)))
+          (minus-terms (rest-terms term-list))))))
+  (define (minus-poly p)
+    (make-poly (variable p) (minus-terms (term-list p))))
+
   (define (=zero? p)
     (define (zero-terms? term-list)
       (if (empty-termlist? term-list) #t
@@ -319,8 +338,12 @@
   (define (tag p) (attach-tag 'polynomial p))
   (put 'add '(polynomial polynomial)
        (lambda (p1 p2) (tag (add-poly p1 p2))))
+  (put 'sub '(polynomial polynomial)
+       (lambda (p1 p2) (tag (add-poly p1 (minus-poly p2)))))
   (put 'mul '(polynomial polynomial)
        (lambda (p1 p2) (tag (mul-poly p1 p2))))
+  (put 'minus '(polynomial)
+       (lambda (p) (tag (minus-poly p))))
   (put '=zero? '(polynomial) =zero?)
   (put 'make 'polynomial
        (lambda (var terms) (tag (make-poly var terms))))
