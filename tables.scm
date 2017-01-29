@@ -304,7 +304,7 @@
           (mul-term-by-all-terms t1 (rest-terms L))))))
 
   (define (=zero? p)
-    (define (iter term-list)
+    (define (zero-terms? term-list)
       (if (empty-termlist? term-list) #t
         (let ((c (coeff (first-term term-list))))
           (or (and (pair? c)
@@ -312,7 +312,8 @@
                    (iter (rest-terms term-list)))
               (and (= c 0)
                    (iter (rest-terms term-list)))))))
-    (iter (term-list p)))
+    (if (number? p) (= p 0)
+      (zero-terms? (term-list p))))
 
    ;; システムの他の部分とのインターフェース
   (define (tag p) (attach-tag 'polynomial p))
