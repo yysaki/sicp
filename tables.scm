@@ -312,6 +312,37 @@
                      (mul (coeff t1) (coeff t2)))
           (mul-term-by-all-terms t1 (rest-terms L))))))
 
+  (define (div-poly p1 p2)
+    (if (same-variable? (variable p1) (variable p2))
+      (let ((result-terms (div-terms (term-list p1)
+                                     (term-list p2))))
+        (list
+          (make-poly (variable p1) (car result-terms))
+          (make-poly (variable p1) (cdr result-terms))))
+      (error "Polys not in same var -- DIV-POLY"
+             (list p1 p2))))
+  (define (div-terms L1 L2)
+    (if (empty-termlist? L1)
+      (list (the-empty-termlist) (the-empty-termlist))
+      (let ((t1 (first-term L1))
+            (t2 (first-term L2)))
+        (if (> (order t2) (order t1))
+          (list (the-empty-termlist) L1)
+          (let ((new-c (div (coeff t1) (coeff t2)))
+                (new-o (- (order t1) (order t2))))
+            (let ((rest-of-result
+                    (div-terms
+                      (add-terms L1
+                                 (minus-terms
+                                   (mul-term-by-all-terms
+                                     (make-term new-o new-c)
+                                     L2)))
+                      L2)))
+              (list (adjoin-term
+                      (make-term new-o new-c)
+                      (car rest-of-result))
+                    (cdr rest-of-result))))))))
+
   (define (minus-terms term-list)
     (if (empty-termlist? term-list)
       '()
@@ -342,6 +373,8 @@
        (lambda (p1 p2) (tag (add-poly p1 (minus-poly p2)))))
   (put 'mul '(polynomial polynomial)
        (lambda (p1 p2) (tag (mul-poly p1 p2))))
+  (put 'div '(polynomial polynomial)
+       (lambda (p1 p2) (tag (div-poly p1 p2))))
   (put 'minus '(polynomial)
        (lambda (p) (tag (minus-poly p))))
   (put '=zero? '(polynomial) =zero?)
