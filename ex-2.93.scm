@@ -1,0 +1,35 @@
+(load "./tables")
+
+(define (make-rat n d)
+    (cons n d ))
+(define (add-rat x y)
+  (make-rat (add (mul (numer x) (denom y))
+                 (mul (numer y) (denom x)))
+            (add (denom x) (denom y))))
+(define (sub-rat x y)
+  (make-rat (sub (mul (numer x) (denom y))
+                 (mul (numer y) (denom x)))
+            (mul (denom x) (denom y))))
+(define (mul-rat x y)
+  (make-rat (mul (numer x) (numer y))
+            (mul (denom x) (denom y))))
+(define (div-rat x y)
+  (make-rat (mul (numer x) (denom y))
+            (mul (denom x) (numer y))))
+
+
+(install-scheme-number-package)
+(install-rational-package)
+(install-polynomial-package)
+
+(define p1 (make-polynomial 'x '((2 1)(0 1))))
+(define p2 (make-polynomial 'x '((3 1)(0 1))))
+(define rf (make-rational p2 p1))
+
+(print rf)
+(print (cdr rf))
+(print (add rf rf))
+(print (sub rf rf))
+(print (mul rf rf))
+(print (div rf rf))
+
