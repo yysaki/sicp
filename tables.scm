@@ -91,7 +91,7 @@
   (define (add-rat x y)
     (make-rat (add (mul (numer x) (denom y))
                    (mul (numer y) (denom x)))
-              (add (denom x) (denom y))))
+              (mul (denom x) (denom y))))
   (define (sub-rat x y)
     (make-rat (sub (mul (numer x) (denom y))
                    (mul (numer y) (denom x)))
