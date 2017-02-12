@@ -358,10 +358,18 @@
              (list p1 p2))))
   (define (gcd-terms a b)
     (if (empty-termlist? b)
-      a
-      (gcd-terms b (remainder-terms a b))))
-  (define (remainder-terms a b)
-    (caaadr (div-terms a b)))
+      (let ((gcd-coeff (apply gcd (map coeff a))))
+        (mul-term-by-all-terms (make-term 0 (/ 1 gcd-coeff)) a))
+      (gcd-terms b (pseudoremainder-terms a b))))
+  (define (pseudoremainder-terms a b)
+    (let ((ta (first-term a))
+          (tb (first-term b)))
+      (let ((integerizing-factor
+              (expt (coeff tb) (+ 1 (order ta) (- (order tb))))))
+        (caaadr
+          (div-terms
+            (mul-term-by-all-terms (make-term 0 integerizing-factor) a)
+            b)))))
 
   (define (minus-terms term-list)
     (if (empty-termlist? term-list)
@@ -403,7 +411,7 @@
   (put 'make 'polynomial
        (lambda (var terms) (tag (make-poly var terms))))
 
-  (trace gcd-poly gcd-terms remainder-terms div-terms)
+  ; (trace gcd-poly gcd-terms pseudoremainder-terms div-terms)
   'done)
 
 
