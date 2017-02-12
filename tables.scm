@@ -250,8 +250,6 @@
   (define (variable? x) (symbol? x))
   (define (same-variable? v1 v2)
     (and (variable? v1) (variable? v2) (eq? v1 v2)))
-  (define (is-ascendant v1 v2)
-    (string>? (symbol->string 'v) (symbol->string 'v)))
 
    ;; 項と項リストの表現
   (define (adjoin-term term term-list)
@@ -268,20 +266,13 @@
   (define (order term) (car term))
   (define (coeff term) (cadr term))
 
-  (define (normalize-poly v p)
-    (make-poly v
-               (adjoin-term (make-term 0 p)
-                            the-empty-termlist)))
-
   (define (add-poly p1 p2)
-    (let ((v1 (variable p1)) (v2 (variable p2)))
-      (if (same-variable? v1 v2)
-        (make-poly (variable p1)
-                   (add-terms (term-list p1)
-                              (term-list p2)))
-        (if (is-ascendant v1 v2)
-          (add-poly p1 (normalize-poly v1 p2))
-          (add-poly (normalize-poly v2 p1) p2)))))
+    (if (same-variable? (variable p1) (variable p2))
+      (make-poly (variable p1)
+                 (add-terms (term-list p1)
+                            (term-list p2)))
+      (error "Polys not in same var -- ADD-POLY"
+             (list p1 p2))))
   (define (add-terms L1 L2)
     (cond ((empty-termlist? L1) L2)
           ((empty-termlist? L2) L1)
@@ -301,14 +292,12 @@
                                    (rest-terms L2)))))))))
 
   (define (mul-poly p1 p2)
-    (let ((v1 (variable p1)) (v2 (variable p2)))
-      (if (same-variable? v1 v2)
-        (make-poly (variable p1)
-                   (add-terms (term-list p1)
-                              (term-list p2)))
-        (if (is-ascendant v1 v2)
-          (mul-poly p1 (normalize-poly v1 p2))
-          (mul-poly (normalize-poly v2 p1) p2)))))
+    (if (same-variable? (variable p1) (variable p2))
+      (make-poly (variable p1)
+                 (mul-terms (term-list p1)
+                            (term-list p2)))
+      (error "Polys not in same var -- MUL-POLY"
+             (list p1 p2))))
   (define (mul-terms L1 L2)
     (if (empty-termlist? L1)
       (the-empty-termlist)
