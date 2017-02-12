@@ -1,5 +1,8 @@
 (load "./table")
 
+(use slib)
+(require 'trace)
+
 (define (apply-generic op . args)
   (let ((type-tags (map type-tag args)))
     (let ((proc (get op type-tags)))
@@ -399,7 +402,10 @@
   (put '=zero? '(polynomial) =zero?)
   (put 'make 'polynomial
        (lambda (var terms) (tag (make-poly var terms))))
+
+  (trace gcd-poly gcd-terms remainder-terms div-terms)
   'done)
+
 
 (define (make-polynomial var terms)
   ((get 'make 'polynomial) var terms))
