@@ -6,7 +6,7 @@
                                    (term-list p2))))
       (list
         (make-poly (variable p1) (car result-terms))
-        (make-poly (variable p1) (cdr result-terms))))
+        (make-poly (variable p1) (cadr result-terms))))
     (error "Polys not in same var -- DIV-POLY"
            (list p1 p2))))
 (define (div-terms L1 L2)

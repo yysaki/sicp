@@ -347,7 +347,7 @@
               (list (adjoin-term
                       (make-term new-o new-c)
                       (car rest-of-result))
-                    (cdr rest-of-result))))))))
+                    (cadr rest-of-result))))))))
 
   (define (gcd-poly p1 p2)
     (if (same-variable? (variable p1) (variable p2))
