@@ -10,7 +10,7 @@
         (tb (first-term b)))
     (let ((integerizing-factor
             (expt (coeff tb) (+ 1 (order ta) (- (order tb))))))
-      (caaadr
+      (cadr
         (div-terms
           (mul-term-by-all-terms (make-term 0 integerizing-factor) a)
           b)))))
