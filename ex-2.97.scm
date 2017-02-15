@@ -44,3 +44,15 @@
 (define rf2 (make-rational p3 p4))
 
 (print (add rf1 rf2))
+
+; TODO To solve it
+
+(define p1 (make-polynomial 'x '((1 2)(0 1))))
+(define p2 (make-polynomial 'x '((3 3)(0 -1))))
+(define p3 (make-polynomial 'x '((1 7))))
+(define p4 (make-polynomial 'x '((2 5)(0 -1))))
+
+(define rf1 (make-rational p1 p2))
+(define rf2 (make-rational p3 p4))
+
+; (print (add rf1 rf2))
