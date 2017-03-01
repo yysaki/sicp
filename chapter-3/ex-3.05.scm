@@ -23,7 +23,7 @@
 (define (estimate-integral P x1 x2 y1 y2 trials)
   (define (experiment)
     (P (random-in-range x1 x2) (random-in-range y1 y2)))
-  (let ((area (* (- x1 x2) (- y1 y2))))
+  (let ((area (* 1.0 (* (- x1 x2) (- y1 y2)))))
     (* area (monte-carlo trials experiment))))
 
 (define (circle? x y)
@@ -31,6 +31,10 @@
     (+ (square (- x 5)) (square (- y 7)))
     (square 3)))
 
+(define (unit-circle? x y)
+  (<= (+ (square x) (square y)) 1))
+
 ; (trace circle?)
 
 (print (estimate-integral circle? 2 8 4 10 10))
+(print (estimate-integral unit-circle? -1 1 -1 1 10000))
