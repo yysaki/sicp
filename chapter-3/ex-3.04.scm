@@ -20,7 +20,7 @@
                              m)))
           (if (< wrong-count 7)
             (lambda (_) "Incorrect password")
-            (lambda (_) call-the-cops)))))
+            (lambda (_) (call-the-cops))))))
     dispatch))
 
 (define acc (make-account 100 'secret-password))
