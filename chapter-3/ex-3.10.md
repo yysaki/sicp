@@ -42,19 +42,19 @@
 |                |            |        |         +---------------------+
 |                |            |        |            ^
 |                |            |        |            |
-|                |            |        |         +-----------+
-|                |            +-----------+ E2-> | amount:50 |
-|                |                     |  |      +-----------+
+|                |            |        |         +------------+
+|                |            +-----------+ E2-> | balance:50 |
+|                |                     |  |      +------------+
 |                |                     |  |         ^
 |                |                     |  |         |
 |                |                     | @_@--------+
 |                |                     | |
 |                |                     | v
-|                |                     | (if (>= balance amount)
-|                |                     |     (begin (set! balance (- balance amount))
-|                |                     |            balance)
-|                |                     |     "Insufficient funds"))))
-|                |                     |
+|                |                     | (lambda (amount)
+|                |                     |   (if (>= balance amount)
+|                |                     |       (begin (set! balance (- balance amount))
+|                |                     |              balance)
+|                |                     |       "Insufficient funds"))))
 |                |                     |
 |                |                     |<-----------+
 |                |                     |            |
@@ -64,19 +64,19 @@
 |                |                     |         +---------------------+
 |                |                     |            ^
 |                |                     |            |
-|                |                     |         +------------+
-|                +------------------------+ E4-> | amount:100 |
-|                                      |  |      +------------+
+|                |                     |         +-------------+
+|                +------------------------+ E4-> | balance:100 |
+|                                      |  |      +-------------+
 |                                      |  |         ^
 |                                      |  |         |
 |                                      | @_@--------+
 |                                      | |
 |                                      | v
-|                                      | (if (>= balance amount)
-|                                      |     (begin (set! balance (- balance amount))
-|                                      |            balance)
-|                                      |     "Insufficient funds"))))
-|                                      |
+|                                      | (lambda (amount)
+|                                      |   (if (>= balance amount)
+|                                      |       (begin (set! balance (- balance amount))
+|                                      |              balance)
+|                                      |       "Insufficient funds"))))
 +--------------------------------------+
 
 ```
