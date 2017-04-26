@@ -37,7 +37,7 @@
            (set-rear-ptr! deque new-item)
            deque)
           (else
-            (set-prev-item! new-item (front-ptr deque))
+            (set-prev-item! (front-ptr deque) new-item)
             (set-next-item! new-item (front-ptr deque))
             (set-front-ptr! deque new-item)
             deque))))
