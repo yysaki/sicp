@@ -28,7 +28,7 @@
                     (left-branch set)
                     (adjoin-set x (right-branch set))))))
 
-(define (lookup key table)
+(define (lookup-entry key table)
   (define (lookup-iter set)
     (cond ((null? set) #f)
           ((= key (get-key (entry set))) (entry set))
@@ -38,21 +38,27 @@
            (lookup-iter (right-branch set)))))
   (lookup-iter (cdr table)))
 
+(define (lookup key table)
+  (let ((entry (lookup-entry key table)))
+    (if entry
+      (cdr entry)
+      entry)))
+
 (define (insert! key value table)
-  (let ((record (lookup key table)))
+  (let ((record (lookup-entry key table)))
     (if record
       (set-cdr! record value)
       (set-cdr! table (adjoin-set (cons key value) (cdr table))))))
 
-(define t (make-table))
-(insert! 1 'a t)
-(insert! 2 'b t)
-(insert! 3 'c t)
-(insert! 1 'a t)
-(insert! 5 'z t)
+; (define t (make-table))
+; (insert! 1 'a t)
+; (insert! 2 'b t)
+; (insert! 3 'c t)
+; (insert! 1 'a t)
+; (insert! 5 'z t)
 
-#?=(lookup 1 t)
-#?=(lookup 2 t)
-#?=(lookup 3 t)
-#?=(lookup 4 t)
-#?=(lookup 5 t)
+; #?=(lookup 1 t)
+; #?=(lookup 2 t)
+; #?=(lookup 3 t)
+; #?=(lookup 4 t)
+; #?=(lookup 5 t)
