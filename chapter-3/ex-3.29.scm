@@ -11,10 +11,10 @@
   'ok)
 
 ; 遅延時間:
-; (+ (* 3 inverter-delay)
+; (+ (* 2 inverter-delay)
 ;    (+ 1 * and-gate-delay))
 ;
-; ただし、(inverter s1 i1) と (inverter s2 i2) が同時にadd-action!するならば1 inverter-delay分遅延が少なくなる.
+; `(inverter s1 i1)` と `(inverter s2 i2)` は並列に走る.
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -41,3 +41,4 @@
   (newline))
 
 (test 1 1)
+(test 0 0)
