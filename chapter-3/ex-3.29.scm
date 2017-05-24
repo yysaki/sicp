@@ -1,6 +1,6 @@
 (load "./3.3.4")
 
-(define (or-gate s1 s2 output)
+(define (or-gate a1 s2 output)
   (let ((i1 (make-wire))
         (i2 (make-wire))
         (a  (make-wire)))
