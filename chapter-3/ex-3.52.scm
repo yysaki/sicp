@@ -1,3 +1,5 @@
+(load "./3.5")
+
 (define sum 0)
 
 (define (accum x)
@@ -18,7 +20,7 @@
 
 ; stream-refとdisplay-stream式の評価に応じて印字される応答は何か.
 (stream-ref y 7)
-; 28
+; 136
 
 
 (display-stream z)
@@ -33,6 +35,4 @@
 
 ; ;この応答は(delay ⟨exp⟩)を単に(lambda () ⟨exp⟩)で実装し, memo-procの用意する最適化を使わなかった時とどう違うか. 説明せよ.
 
-
-; stream-ref と display-stream が二重にaccumを呼び出すため、sum の値がsystem-ref時点で28,  display-steam時点で 238 になる.
-; z の並びは 29 31 34 38 43 49 56 64 73 83 94 106 119 133 148 164 181 199 218 238 となるので (display-stream z) は何も印字しない。
+; メモ化しない場合、stream-cdr の呼び出しごとに再度同じ計算を行うので、sumの値が変わってくる。
