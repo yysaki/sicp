@@ -72,3 +72,21 @@
   (newline)
   (display x))
 
+(define (stream-take s n)
+  (if (= n 0)
+    the-empty-stream
+    (cons-stream (stream-car s) (stream-take (stream-cdr s) (- n 1)))))
+
+
+(define (add-streams s1 s2)
+  (stream-map + s1 s2))
+
+(define (mul-streams s1 s2)
+  (stream-map * s1 s2))
+
+
+(define (integers-starting-from n)
+  (cons-stream n (integers-starting-from (+ n 1))))
+
+(define integers (integers-starting-from 1))
+
