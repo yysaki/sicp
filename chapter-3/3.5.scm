@@ -7,6 +7,10 @@
   (syntax-rules ()
     ((_ exp) (memo-proc (lambda () exp)))))
 
+; (define-syntax delay
+;   (syntax-rules ()
+;     ((_ exp) (lambda () exp))))
+
 (define-syntax cons-stream
   (syntax-rules ()
     ((_ a b) (cons a (delay b)))))
