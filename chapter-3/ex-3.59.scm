@@ -7,13 +7,8 @@
 
 ; b
 
-(define minus-stream
-  (cons-stream -1 minus-stream))
-
 (define cosine-series
-  (cons-stream 1 
-               (mul-streams minus-stream
-               (integrate-series sine-series))))
+  (cons-stream 1 (scale-stream (integrate-series sine-series) -1)))
 
 (define sine-series
   (cons-stream 0 (integrate-series cosine-series)))
