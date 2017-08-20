@@ -81,6 +81,9 @@
     the-empty-stream
     (cons-stream (stream-car s) (stream-take (stream-cdr s) (- n 1)))))
 
+(define (display-stream-10 s)
+  (stream-for-each display-line (stream-take s 10)))
+
 
 (define (add-streams s1 s2)
   (stream-map + s1 s2))
@@ -90,6 +93,10 @@
 
 (define (scale-stream stream factor)
   (stream-map (lambda (x) (* x factor)) stream))
+
+(define (partial-sums s)
+  (cons-stream (stream-car s)
+               (add-streams (stream-cdr s) (partial-sums s))))
 
 
 (define (integers-starting-from n)
