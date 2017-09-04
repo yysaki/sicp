@@ -40,4 +40,4 @@
 (display-stream-10
   (stream-filter
     (lambda (x) (not (or (divide? (car x)) (divide? (cadr x)))))
-    (weighted-pairs integers integers weight-a)))
+    (weighted-pairs integers integers weight-b)))
