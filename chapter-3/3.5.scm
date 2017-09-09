@@ -103,3 +103,8 @@
   (cons-stream n (integers-starting-from (+ n 1))))
 
 (define integers (integers-starting-from 1))
+
+(define (make-stream l)
+  (if (null? l)
+    the-empty-stream
+    (cons-stream (car l) (make-stream (cdr l)))))
