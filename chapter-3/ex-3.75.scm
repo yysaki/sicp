@@ -1,7 +1,7 @@
 (load "./3.5")
 
 (define sense-data
- (make-stream '(1 2 1.5 1 0.5 -0.1 -2 -3 -2 -0.5 0.2 3 4)))
+ (list->stream '(1 2 1.5 1 0.5 -0.1 -2 -3 -2 -0.5 0.2 3 4)))
 
 (define (sign-change-detector input-value last-value)
   (cond ((and (>= input-value 0) (< last-value 0)) 1)

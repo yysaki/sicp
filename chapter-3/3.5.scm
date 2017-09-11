@@ -104,7 +104,7 @@
 
 (define integers (integers-starting-from 1))
 
-(define (make-stream l)
+(define (list->stream l)
   (if (null? l)
     the-empty-stream
-    (cons-stream (car l) (make-stream (cdr l)))))
+    (cons-stream (car l) (list->stream (cdr l)))))
