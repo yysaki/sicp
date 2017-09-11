@@ -8,9 +8,9 @@
         ((and (< input-value 0) (>= last-value 0)) -1)
         (else 0)))
 
-(define (make-zero-crossings input-stream last-value prev-agpt)
+(define (make-zero-crossings input-stream last-value prev-avpt)
   (let ((avpt (/ (+ (stream-car input-stream) last-value) 2)))
-    (cons-stream (sign-change-detector avpt prev-agpt)
+    (cons-stream (sign-change-detector avpt prev-avpt)
                  (make-zero-crossings (stream-cdr input-stream)
                                       (stream-car input-stream)
                                       avpt))))
