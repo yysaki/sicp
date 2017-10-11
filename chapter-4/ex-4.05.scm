@@ -14,7 +14,7 @@
                  (let ((action (cond-actions first)))
                    (if (eq? (car action) '=>)
                      (list (cadr action) (cond-predicate first))
-                     (sequence->exp action))
-                   (expand-clauses rest)))))))
+                     (sequence->exp action)))
+                   (expand-clauses rest))))))
 
 (driver-loop)
