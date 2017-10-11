@@ -291,6 +291,9 @@
         (list 'cdr cdr)
         (list 'cons cons)
         (list 'null? null?)
+        (list '+ +)
+        (list 'assoc assoc)
+        (list 'cadr cadr)
         ; ⟨基本手続きが続く⟩
         ))
 
