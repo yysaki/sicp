@@ -15,6 +15,6 @@
                    (if (eq? (car action) '=>)
                      (list (cadr action) (cond-predicate first))
                      (sequence->exp action)))
-                   (expand-clauses rest))))))
+                 (expand-clauses rest))))))
 
 (driver-loop)
