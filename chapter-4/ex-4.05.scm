@@ -10,11 +10,12 @@
           (sequence->exp (cond-actions first))
           (error "ELSE clause isn't last -- COND->IF"
                  clauses))
-        (make-if (cond-predicate first)
-                 (let ((action (cond-actions first)))
-                   (if (eq? (car action) '=>)
-                     (list (cadr action) (cond-predicate first))
-                     (sequence->exp action)))
-                 (expand-clauses rest))))))
+        (if (eq? (cadr first) '=>)
+          (make-if (cond-predicate first)
+                   (list (cadr (cond-actions first)) (cond-predicate first))
+                   (expand-clauses rest))
+          (make-if (cond-predicate first)
+                   (sequence->exp (cond-actions first))
+                   (expand-clauses rest)))))))
 
 (driver-loop)
