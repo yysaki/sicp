@@ -292,8 +292,13 @@
         (list 'cons cons)
         (list 'null? null?)
         (list '+ +)
+        (list '- -)
+        (list '* *)
+        (list '= =)
+        (list '< <)
         (list 'assoc assoc)
         (list 'cadr cadr)
+        (list 'display display)
         ; ⟨基本手続きが続く⟩
         ))
 
