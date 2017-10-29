@@ -11,9 +11,10 @@
           (error "ELSE clause isn't last -- COND->IF"
                  clauses))
         (if (eq? (cadr first) '=>)
-          (make-if (cond-predicate first)
-                   (list (cadr (cond-actions first)) (cond-predicate first))
-                   (expand-clauses rest))
+          (let ((predicate (cond-predicate first)))
+            (make-if predicate
+                     (list (cadr (cond-actions first)) predicate)
+                     (expand-clauses rest)))
           (make-if (cond-predicate first)
                    (sequence->exp (cond-actions first))
                    (expand-clauses rest)))))))
