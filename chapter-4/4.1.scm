@@ -30,6 +30,7 @@
         ((begin? exp)
          (eval-sequence (begin-actions exp) env))
         ((cond? exp) (eval (cond->if exp) env))
+        ((let? exp) (eval (let->combination exp) env))
         ((application? exp)
          (apply (eval (operator exp) env)
                 (list-of-values (operands exp) env)))
@@ -184,6 +185,16 @@
         (make-if (cond-predicate first)
                  (sequence->exp (cond-actions first))
                  (expand-clauses rest))))))
+
+; ex-4.06
+
+(define (let? exp) (tagged-list? exp 'let))
+
+(define (let->combination exp)
+  (let ((params (map car (cadr exp)))
+        (inits (map cadr (cadr exp)))
+        (body (cddr exp)))
+    (cons (make-lambda params body) inits)))
 
 ; 4.1.3
 
