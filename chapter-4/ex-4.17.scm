@@ -47,4 +47,4 @@
   (define v '*unassigned*)
   (set! u ⟨e1⟩)
   (set! v ⟨e2⟩)
-  ⟨e3⟩))
+  ⟨e3⟩)
