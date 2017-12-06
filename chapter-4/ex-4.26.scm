@@ -25,12 +25,6 @@
 (define (unless? exp) (tagged-list? exp 'unless))
 
 (define (unless->if exp)
-  (define (condition exp) (cadr exp))
-  (define (exceptional-value exp)
-    (if (not (null? (cadddr exp)))
-      (cadddr exp)
-      'false))
-  (define (usual-value exp) (caddr exp))
   (let ((condition (cadr exp))
         (exceptional-value (cadddr exp))
         (usual-value (caddr exp)))
